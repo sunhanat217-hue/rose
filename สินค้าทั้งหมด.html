@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ร้านเสื้อผ้าออนไลน์</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .products {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 10px;
+            width: 20%;
+            box-sizing: border-box;
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #cart, #receipt, #payment {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #cart ul, #receipt ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #cart-items li {
+            margin-bottom: 10px;
+        }
+
+        .remove-btn {
+            margin-left: 10px;
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #payment {
+            text-align: center;
+        }
+
+        #payment img {
+            width: 200px;
+            height: 200px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ร้านเสื้อผ้าแบรนด์เนม</h1>
+    </header>
+
+    <section class="products">
+        <!-- สินค้า 1 -->
+        <div class="product">
+            <img src="img/400.png" alt="เสื้อแขนสั้น"/>
+            <h2>เสื้อแขนสั้น</h2>
+            <p>ราคา: 1399 บาท</p>
+            <label for="size1">เลือกขนาด:</label>
+            <select id="size1">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+            <button onclick="addToCart('เสื้อแขนสั้น', 1399, 'size1')">เพิ่มลงตะกร้า</button>
+        </div>
+
+        <!-- สินค้า 2 -->
+        <div class="product">
+            <img src="img/700.png" alt="เสื้อครอป"/>
+            <h2>เสื้อครอป</h2>
+            <p>ราคา: 1499 บาท</p>
+            <label for="size2">เลือกขนาด:</label>
+            <select id="size2">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+            <button onclick="addToCart('เสื้อครอป', 1499, 'size2')">เพิ่มลงตะกร้า</button>
+        </div>
+
+        <!-- สินค้า 3 -->
+        <div class="product">
+            <img src="img/800.png" alt="เสื้อยีนส์"/>
+            <h2>เสื้อยีนส์</h2>
+            <p>ราคา: 1599 บาท</p>
+            <label for="size3">เลือกขนาด:</label>
+            <select id="size3">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+            <button onclick="addToCart('เสื้อยีนส์', 1599, 'size3')">เพิ่มลงตะกร้า</button>
+        </div>
+
+        <!-- สินค้า 4 -->
+        <div class="product">
+            <img src="img/900.png" alt="เสื้อกันหนาว"/>
+            <h2>เสื้อกันหนาว</h2>
+            <p>ราคา: 1799 บาท</p>
+            <label for="size4">เลือกขนาด:</label>
+            <select id="size4">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+            <button onclick="addToCart('เสื้อกันหนาว', 1799, 'size4')">เพิ่มลงตะกร้า</button>
+        </div>
+
+        <!-- สินค้า 5 -->
+        <div class="product">
+            <img src="img/1000.png" alt="เสื้อยืด"/>
+            <h2>เสื้อยืด</h2>
+            <p>ราคา: 1999 บาท</p>
+            <label for="size5">เลือกขนาด:</label>
+            <select id="size5">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+            <button onclick="addToCart('เสื้อยืด', 1999, 'size5')">เพิ่มลงตะกร้า</button>
+        </div>
+    </section>
+
+    <section id="cart">
+        <h2>🛒 ตะกร้าสินค้า</h2>
+        <ul id="cart-items"></ul>
+        <div id="checkout">
+            <button onclick="checkout()">💰 ชำระเงิน</button>
+        </div>
+    </section>
+
+    <div id="payment" style="display: none;">
+        <h2>📱 ชำระเงินผ่าน QR Code</h2>
+        <p>ยอดที่ต้องชำระ: <strong>฿<span id="payment-amount"></span></strong></p>
+        <img src="img/2.png" alt="QR Code ชำระเงิน">
+        <p>เมื่อคุณชำระเงินเรียบร้อยแล้ว กดปุ่มด้านล่างเพื่อยืนยัน</p>
+        <button onclick="confirmPayment()">✅ ยืนยันการโอน</button>
+    </div>
+
+    <div id="receipt" style="display: none;">
+        <h2>📄 ใบเสร็จ</h2>
+        <p>วันที่: <span id="receipt-date"></span></p>
+        <ul id="receipt-items"></ul>
+        <p><strong>รวม: ฿<span id="total-price"></span></strong></p>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addToCart(productName, price, sizeSelectId) {
+            const size = document.getElementById(sizeSelectId).value;
+            const item = { name: productName, price: price, size: size };
+            cart.push(item);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById("cart-items");
+            cartItems.innerHTML = '';
+            cart.forEach((item, index) => {
+                const li = document.createElement("li");
+                li.textContent = `${item.name} (ขนาด: ${item.size}) - ฿${item.price}`;
+
+                const removeBtn = document.createElement("button");
+                removeBtn.textContent = "ลบ";
+                removeBtn.className = "remove-btn";
+                removeBtn.onclick = () => removeFromCart(index);
+
+                li.appendChild(removeBtn);
+                cartItems.appendChild(li);
+            });
+
+            // Check if there are 4 or more items for a discount
+            if (cart.length >= 4) {
+                let discount = calculateDiscount();
+                document.getElementById("checkout").innerHTML = `<button onclick="checkout()">💰 ชำระเงิน (ส่วนลด ${discount}%)</button>`;
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function calculateDiscount() {
+            return 10; // 10% discount for 4 or more items
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("ตะกร้าสินค้าว่าง");
+                return;
+            }
+
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+            if (cart.length >= 4) {
+                let discount = calculateDiscount();
+                total -= total * discount / 100;
+            }
+
+            document.getElementById("payment-amount").textContent = total;
+            document.getElementById("cart").style.display = "none";
+            document.getElementById("payment").style.display = "block";
+
+            localStorage.setItem("receiptItems", JSON.stringify(cart));
+            localStorage.setItem("receiptTotal", total);
+        }
+
+        function confirmPayment() {
+            const receiptItems = JSON.parse(localStorage.getItem("receiptItems") || "[]");
+            const total = localStorage.getItem("receiptTotal");
+
+            const receiptDate = new Date().toLocaleDateString();
+            document.getElementById("receipt-date").textContent = receiptDate;
+
+            const receiptList = document.getElementById("receipt-items");
+            receiptList.innerHTML = '';
+            receiptItems.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = `${item.name} (ขนาด: ${item.size}) - ฿${item.price}`;
+                receiptList.appendChild(li);
+            });
+
+            document.getElementById("total-price").textContent = total;
+
+            document.getElementById("payment").style.display = "none";
+            document.getElementById("receipt").style.display = "block";
+
+            cart = [];
+            localStorage.removeItem("receiptItems");
+            localStorage.removeItem("receiptTotal");
+        }
+    </script>
+</body>
+</html>

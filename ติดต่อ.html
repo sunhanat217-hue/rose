@@ -1,0 +1,88 @@
+<?php
+// ตั้งค่าการส่งอีเมล์ (เจ้าของเว็บต้องมีอีเมล์ที่สามารถรับข้อความได้)
+$owner_email = "fhree2009@gmail.com"; //
+// ตัวแปรสำหรับการส่งข้อความ
+$is_message_sent = false;
+$error_message = "";
+
+// การส่งข้อความ
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message'])) {
+    $name = htmlspecialchars($_POST['name']);
+    $email = htmlspecialchars($_POST['email']);
+    $message = htmlspecialchars($_POST['message']);
+    
+    // ตรวจสอบการกรอกข้อมูล
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error_message = "กรุณากรอกอีเมล์ให้ถูกต้อง";
+    } else {
+        // ส่งข้อความไปยังอีเมล์เจ้าของเว็บไซต์
+        $subject = "ข้อความจากผู้ใช้ $name";
+        $body = "ชื่อ: $name\nอีเมล์: $email\nข้อความ:\n$message";
+        $headers = "From: $email";
+        
+        if (mail($owner_email, $subject, $body, $headers)) {
+            $is_message_sent = true;
+        } else {
+            $error_message = "เกิดข้อผิดพลาดในการส่งข้อความ";
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แชทติดต่อเจ้าของเว็บ</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f9; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h2 { text-align: center; color: #4CAF50; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ddd;
+        }
+        button { width: 100%; padding: 10px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .message { color: green; margin-top: 20px; }
+        .error { color: red; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>ติดต่อเจ้าของเว็บไซต์</h2>
+    
+    <!-- ฟอร์มการส่งข้อความ -->
+    <form method="POST">
+        <div class="form-group">
+            <label for="name">ชื่อของคุณ:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">อีเมล์ของคุณ:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="message">ข้อความของคุณ:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+
+        <button type="submit">ส่งข้อความ</button>
+    </form>
+
+    <!-- ข้อความที่แสดงเมื่อส่งข้อความสำเร็จหรือมีข้อผิดพลาด -->
+    <?php if ($is_message_sent) { ?>
+        <div class="message">ข้อความของคุณได้ถูกส่งไปยังเจ้าของเว็บไซต์แล้ว! เราจะติดต่อกลับเร็วๆ นี้</div>
+    <?php } elseif ($error_message) { ?>
+        <div class="error"><?php echo $error_message; ?></div>
+    <?php } ?>
+</div>
+
+</body>
+</html>
+
